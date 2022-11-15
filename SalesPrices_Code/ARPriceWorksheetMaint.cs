@@ -14,7 +14,7 @@ namespace PX.Objects.AR
     {
 
         public PXSelect<SOLine, Where<SOLine.inventoryID, Equal<Current<ARPriceWorksheetDetail.inventoryID>>>> lines;
-        public PXSelect<BAccount> childAccounts;
+        
 
         public PXSelect<InventoryItem> inventory;
         private decimal? trendingQty = 0;
@@ -81,10 +81,13 @@ namespace PX.Objects.AR
                             }
                         }
 
+                        
 
                         //Child account inventory qty on sales order
-                        foreach (BAccount item in childAccounts.Select())
+                        foreach (PXResult<BAccount> item1 in PXSelect<BAccount>.Select(this.Base))
                         {
+                            BAccount item = (BAccount)item1;
+
                             foreach (PXResult<SOLine> item2 in lines.Select())
                             {
                                 SOLine line = (SOLine)item2;
